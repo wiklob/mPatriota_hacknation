@@ -3,6 +3,10 @@
   publish = "dist"
   command = "npm run build"
 
+[context.production.environment]
+  VITE_SUPABASE_URL = "https://your-project-url.supabase.co" # Netlify will override this with actual ENV var if set in UI
+  VITE_SUPABASE_ANON_KEY = "your-anon-key"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
