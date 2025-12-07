@@ -99,7 +99,7 @@ export function ProjectDetailPage() {
           <Card className="mt-4 p-4" variant="outlined">
             <ProjectSummary
               summary={project.summary}
-              tags={(project.tags || []) as ProjectTag[]}
+              tags={project.tags as ProjectTag[]}
             />
           </Card>
         )}
