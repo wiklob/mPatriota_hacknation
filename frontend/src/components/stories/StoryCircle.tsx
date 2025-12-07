@@ -1,4 +1,4 @@
-import { Plus, Scale, Heart, Briefcase, GraduationCap, Leaf, Wallet, Home, Car, Users, Shield, Laptop, Wheat } from 'lucide-react';
+import { Plus, Scale, Heart, GraduationCap, Leaf, Wallet, Car, Users, Shield, Laptop, Wheat } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 interface StoryCircleProps {

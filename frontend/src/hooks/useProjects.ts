@@ -3,6 +3,8 @@ import { supabase } from '../lib/supabase';
 import type { Project, RclStage, SejmStage, Voting, VotingByParty } from '../lib/types';
 
 export interface ProjectWithDetails extends Project {
+  summary?: string | null;
+  tags?: string[];
   rclStages: RclStage[];
   sejmStages: SejmStage[];
   voting: Voting | null;

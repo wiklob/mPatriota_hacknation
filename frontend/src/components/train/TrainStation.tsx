@@ -10,13 +10,7 @@ interface TrainStationProps {
   isLast?: boolean;
 }
 
-export function TrainStation({
-  phase,
-  label,
-  projects,
-  isFirst = false,
-  isLast = false
-}: TrainStationProps) {
+export function TrainStation({ title, date, status, isCompleted, isCurrent, onClick }: TrainStationProps) {
   const count = projects.length;
 
   return (
