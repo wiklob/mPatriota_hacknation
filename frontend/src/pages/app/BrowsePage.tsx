@@ -8,13 +8,15 @@ import { useSearchStore } from '../../lib/store';
 import { truncate, getPhaseLabel } from '../../lib/utils';
 import { useNavigate } from 'react-router-dom';
 
+// Categories matching database topic enum values
 const CATEGORIES = [
-  { id: 'zdrowie', label: 'Zdrowie', count: 10 },
-  { id: 'praca', label: 'Praca', count: 8 },
-  { id: 'podatki', label: 'Podatki', count: 12 },
-  { id: 'edukacja', label: 'Edukacja', count: 5 },
-  { id: 'transport', label: 'Transport', count: 7 },
-  { id: 'klimat', label: 'Klimat', count: 4 },
+  { id: 'justice', label: 'Prawo' },
+  { id: 'finance', label: 'Finanse' },
+  { id: 'social', label: 'Spoleczne' },
+  { id: 'health', label: 'Zdrowie' },
+  { id: 'digital', label: 'Cyfryzacja' },
+  { id: 'environment', label: 'Klimat' },
+  { id: 'agriculture', label: 'Rolnictwo' },
 ];
 
 export function BrowsePage() {
@@ -37,10 +39,17 @@ export function BrowsePage() {
     // Optional: Auto-open logic can go here
   }, []);
 
-  const handleCategoryClick = (categoryLabel: string) => {
-    // Map category label to topic ID if needed, or just set query
-    searchStore.setQuery(categoryLabel);
+  const handleCategoryClick = (topicId: string) => {
+    // Set the topic filter using the English ID
+    searchStore.setTopic(topicId);
   };
+
+  // Compute topic counts from all projects
+  const topicCounts = allProjects.reduce((acc, p) => {
+    const topic = p.topic || 'other';
+    acc[topic] = (acc[topic] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
 
   const isFiltering = searchStore.query || searchStore.topic || searchStore.type || searchStore.status;
 
@@ -65,20 +74,24 @@ export function BrowsePage() {
                 Kategorie
               </h2>
               <div className="grid grid-cols-2 gap-2">
-                {CATEGORIES.map((cat) => (
-                  <Card
-                    key={cat.id}
-                    className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
-                    onClick={() => handleCategoryClick(cat.label)}
-                  >
-                    <p className="text-sm font-medium text-foreground">
-                      {cat.label}
-                    </p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {cat.count} projektow
-                    </p>
-                  </Card>
-                ))}
+                {CATEGORIES.map((cat) => {
+                  const count = topicCounts[cat.id] || 0;
+                  if (count === 0) return null;
+                  return (
+                    <Card
+                      key={cat.id}
+                      className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
+                      onClick={() => handleCategoryClick(cat.id)}
+                    >
+                      <p className="text-sm font-medium text-foreground">
+                        {cat.label}
+                      </p>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {count} {count === 1 ? 'projekt' : 'projektow'}
+                      </p>
+                    </Card>
+                  );
+                })}
               </div>
             </section>
           </>

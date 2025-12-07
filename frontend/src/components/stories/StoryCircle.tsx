@@ -57,17 +57,31 @@ export function StoryCircle({ title, type, topic, onClick, isViewed = false }: S
       onClick={onClick}
       className="flex flex-col items-center gap-2.5 flex-shrink-0 w-[76px] group"
     >
-      <div
-        className={cn(
-          'w-[66px] h-[66px] rounded-[20px] flex items-center justify-center transition-all duration-200',
-          currentStyle.bg,
-          currentStyle.shadow,
-          isViewed && type !== 'add' && 'opacity-50',
-          type !== 'add' && 'group-active:scale-95',
-          type === 'add' && 'group-hover:border-slate-300 group-active:scale-95'
+      <div className="relative">
+        <div
+          className={cn(
+            'w-[66px] h-[66px] rounded-[20px] flex items-center justify-center transition-all duration-200',
+            currentStyle.bg,
+            currentStyle.shadow,
+            isViewed && type !== 'add' && 'opacity-50',
+            type !== 'add' && 'group-active:scale-95',
+            type === 'add' && 'group-hover:border-slate-300 group-active:scale-95'
+          )}
+        >
+          <Icon size={24} className={type === 'add' ? "text-slate-400" : "text-white"} strokeWidth={1.5} />
+        </div>
+
+        {/* Status indicator dot */}
+        {type !== 'add' && (
+          <div
+            className={cn(
+              'absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 border-white',
+              type === 'positive' && 'bg-emerald-500',
+              type === 'negative' && 'bg-red-500',
+              type === 'neutral' && 'bg-slate-400'
+            )}
+          />
         )}
-      >
-        <Icon size={24} className={type === 'add' ? "text-slate-400" : "text-white"} strokeWidth={1.5} />
       </div>
       <span className={cn(
         'text-[11px] font-medium text-center leading-tight line-clamp-2 capitalize',
